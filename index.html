@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>input输入框剩余字数</title>
+    <style>
+        @font-face{
+            font-family:jiangang;
+            src:url('http://7xshwa.com1.z0.glb.clouddn.com/jiangang.ttf')
+        }
+        #zishu{font-family:jiangang;}
+        .wbk{width:586px;height:150px;margin:0 auto}
+        button{width:100px;height:30px;background:#ffc09f;border:none;outline:none;cursor:pointer;color:#fff;};
+    </style>
+    <script src="./jquery.1.8.2.min.js"></script>
+    <script>
+        $(function(){
+            $("#btn").click(function(){
+                if($("#syzs").val()>0){
+                    var srkwb=$("#syzs").val();
+                    $(".liuyan").append('<li style="list-style:decimal;margin-bottom:10px;">'+srkwb+'</li>')
+                    $("#syzs").val(null);
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+   <div class="wbk">
+       <p id="jishu" style="color:#888;visibility:hidden;float:right">您还可以输入<span id="zishu" style="color:red;padding-left:10px;padding-right:10px;font-weight:bold;">140</span>字</p>
+       <textarea name="syzs" id="syzs" cols="30" rows="10" style="width:580px;height:80px;outline:none;resize:none;overflow:hidden;border:1px solid #ccc;box-shadow:-1px 0 4px #ccc;text-indent:20px;color:#888"></textarea>
+       <p style="height:40px;"><button id="btn" style="float:right">发布</button></p>
+       <ul class="liuyan" style="padding:20px"></ul>
+   </div>
+    <script>
+        var syzs=document.getElementById("syzs");
+        var zishu=document.getElementById("zishu");
+        var zongshu=140;
+        var jishu=document.getElementById("jishu");
+        var btn=document.getElementById("btn");
+        
+        //获取焦点的时候显示剩余字数
+        syzs.onfocus=function(){
+            jishu.style.visibility='visible';
+            syzs.style.border='1px solid #fa7d3c';
+            btn.style.background='#ff8140';
+        }
+        
+        //失去焦点的时候隐藏剩余字数
+        syzs.onblur=function(){
+            jishu.style.visibility='hidden';
+            syzs.style.border='1px solid #ccc';
+            if(syzs.value.length>0){
+                btn.style.background='#ff8140';
+            }else{
+                btn.style.background='#ffc09f';
+            }
+        }
+        
+        //键盘放开的时候计算出剩余字数
+        syzs.onkeyup=function(){
+            var ys=zongshu-syzs.value.length;
+            zishu.innerHTML=ys;
+            //判断字数超出
+            if(ys<=0){
+                jishu.style.color='red';
+                var chao=zishu.innerHTML=-ys;
+                jishu.innerHTML='<p style="color:#888;margin:0">已超出'+'<span style="color:red;padding-left:10px;padding-right:10px;">'+chao+'</span>'+'字</p>';
+            }
+        }
+    </script>
+</body>
+</html>
